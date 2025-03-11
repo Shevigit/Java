@@ -3,6 +3,10 @@ package Data;
 import java.util.Random;
 
 public class Question extends  Inquiry{
+    @Override
+    public String getFolderName() {
+        return "Question";
+    }
 
     @Override
     public void handling()

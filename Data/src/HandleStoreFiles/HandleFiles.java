@@ -12,7 +12,7 @@ public class HandleFiles {
     public void saveFile(IForSaving forSaving) throws  IOException{
         File dir=new File(forSaving.getFolderName());
         dir.mkdir();
-         File file = new File(getDirectoryPath(forSaving));
+        File file = new File(getDirectoryPath(forSaving));
         file.createNewFile();
         OutputStream  outputStream=new FileOutputStream(file) ;
         OutputStreamWriter outputStreamWriter=new OutputStreamWriter(outputStream);
@@ -23,8 +23,8 @@ public class HandleFiles {
 
     public void deleteFile(IForSaving forSaving) throws  IOException{
 
-         File f=new File(forSaving.getFileName());
-         f.delete();
+        File f=new File(forSaving.getFileName());
+        f.delete();
     }
 
     public void updateFile(IForSaving forSaving)throws  IOException{
@@ -32,7 +32,7 @@ public class HandleFiles {
     }
 
     private String getFileName(IForSaving forSaving)throws  IOException{
-   return forSaving.getFileName();
+        return forSaving.getFileName();
     }
     private String getDirectoryPath(IForSaving forSaving)throws IOException{
         return  forSaving.getFolderName()+"\\"+forSaving.getFileName()+".txt";

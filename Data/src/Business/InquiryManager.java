@@ -4,7 +4,9 @@ import Data.Complaint;
 import Data.Inquiry;
 import Data.Question;
 import Data.Request;
+import HandleStoreFiles.HandleFiles;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ import java.util.Scanner;
 public class InquiryManager {
     Queue<Inquiry> q=new LinkedList<Inquiry>();
     private Inquiry currentInquiry;
-
+    HandleFiles handleFiles=new HandleFiles();
     public  void createInquiry(int digit)
     {
 
@@ -32,7 +34,7 @@ public class InquiryManager {
 
     }
 
-    public void inquiryCreation (){
+    public void inquiryCreation () throws IOException {
 
         int digit=0;
         System.out.println("enter:");
@@ -44,28 +46,29 @@ public class InquiryManager {
         digit=scan.nextInt();
         while (digit>0&&digit<4)
         {
-        createInquiry(digit);
-       currentInquiry.fillDataByUser();
-        q.add(currentInquiry);
+            createInquiry(digit);
+            currentInquiry.fillDataByUser();
+            q.add(currentInquiry);
+            handleFiles.saveFile(currentInquiry);
             System.out.println("enter:");
             System.out.println("\t 1 to question");
             System.out.println("\t 2 to request");
             System.out.println("\t 3 to complaint");
             System.out.println("\t 4 to exit");
-             scan=new Scanner(System.in);
+            scan=new Scanner(System.in);
             digit=scan.nextInt();
 
         }
 
     }
-        public  void  processInquiryManager() {
-            if (q != null) {
-                while (!q.isEmpty()) {
-                 currentInquiry= q.poll();
-                 currentInquiry.handling();
-                }
+    public  void  processInquiryManager() {
+        if (q != null) {
+            while (!q.isEmpty()) {
+                currentInquiry= q.poll();
+                currentInquiry.handling();
             }
         }
+    }
 
 
 }

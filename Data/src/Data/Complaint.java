@@ -1,25 +1,35 @@
 package Data;
 
+import HandleStoreFiles.IForSaving;
+
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Complaint extends Inquiry{
-private  String assignedBranch;
+public class Complaint extends Inquiry  {
+    private  String assignedBranch;
 
     public String getAssignedBranch() {
         return assignedBranch;
     }
 
+
+
     public void setAssignedBranch(String assignedBranch) {
         this.assignedBranch = assignedBranch;
     }
+
+    @Override
+    public String getFolderName() {
+        return "Complaint";
+    }
+
     @Override
     public  void fillDataByUser() {
         super.fillDataByUser();
-    System.out.println("enter AssignedBranch:");
-    Scanner scan=new Scanner(System.in);
-    setAssignedBranch(scan.nextLine());
+        System.out.println("enter AssignedBranch:");
+        Scanner scan=new Scanner(System.in);
+        setAssignedBranch(scan.nextLine());
     }
 
     @Override
