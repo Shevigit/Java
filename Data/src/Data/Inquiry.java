@@ -1,13 +1,16 @@
 package Data;
 
+import HandleStoreFiles.IForSaving;
+
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public abstract class Inquiry {
+public abstract class Inquiry implements IForSaving {
     private  static Integer nextCodeVal = 0;
     protected Integer code;
     protected String description;
     protected LocalDateTime creationDate;
+
 
     public Inquiry() {
         nextCodeVal++;
@@ -47,12 +50,24 @@ public abstract class Inquiry {
 
 
     public  void fillDataByUser() {
-    setCode(nextCodeVal);
+        setCode(nextCodeVal);
         setCreationDate(LocalDateTime.now());
         System.out.println("enter describtion:");
         Scanner scan=new Scanner(System.in);
         setDescription(scan.nextLine());
     }
-public  abstract void handling();
+    public  abstract void handling();
 
+    public abstract String getFolderName() ;
+
+
+
+    public String getFileName() {
+        return getCode()+"";
+    }
+
+
+    public String getData() {
+        return getDescription()+", ";
+    }
 }
