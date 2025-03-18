@@ -51,6 +51,17 @@ Thumbs.db
 .idea/
 *.iml
 *.iws
+<<<<<<< HEAD
+=======
+
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata/
+
+
+>>>>>>> 9900e7ff19b24d555085b77f6e229d81da2e7af9
 
 # Eclipse
 .project
