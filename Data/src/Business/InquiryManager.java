@@ -12,9 +12,25 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class InquiryManager {
-    Queue<Inquiry> q=new LinkedList<Inquiry>();
+//  final  static  Queue<Inquiry> q=new LinkedList<Inquiry>();
+private final  static  Queue<Inquiry> q;
     private Inquiry currentInquiry;
     HandleFiles handleFiles=new HandleFiles();
+static {
+
+q=new LinkedList<Inquiry>();
+
+}
+private  static  InquiryManager instance;
+
+    public static InquiryManager getInstance() {
+        if(instance==null)
+        {
+            instance=new InquiryManager();
+        }
+        return instance;
+    }
+
     public  void createInquiry(int digit)
     {
 

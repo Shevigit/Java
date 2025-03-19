@@ -1,4 +1,6 @@
 package HandleStoreFiles;
+import Data.Inquiry;
+
 import java.io.*;
 import java.util.List;
 //import java.io.File;
@@ -43,4 +45,25 @@ public class HandleFiles {
             saveFile(i);
         }
     }
+
+
+//    private static Inquiry parseInquiry(String line) {
+//
+//        return new Inquiry(line);
+//    }
+  public  Object readFromFile(IForSaving iForSaving, String filePath)throws  IOException{
+        StringBuilder str=new StringBuilder();
+      BufferedReader br = new BufferedReader(new FileReader(filePath));
+      String [] data;
+      String line=br.readLine();
+      if(line!=null)
+      {
+      data=line.split(",");
+      }
+
+//      Inquiry inquiry=parseInquiry(data[i]);
+//      inquiry.parse(data);
+
+      return null;
+  }
 }

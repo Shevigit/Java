@@ -2,6 +2,7 @@ package Data;
 
 import HandleStoreFiles.IForSaving;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -11,8 +12,24 @@ public abstract class Inquiry implements IForSaving {
     protected String description;
     protected LocalDateTime creationDate;
 
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void parse(String[] fileText) throws  IOException{
+
+
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    protected String className;
 
     public Inquiry() {
+        className=this.getClass().getSimpleName();
         nextCodeVal++;
     }
 
@@ -68,6 +85,6 @@ public abstract class Inquiry implements IForSaving {
 
 
     public String getData() {
-        return getDescription()+", ";
+        return this.className+" "+getCreationDate()+" "+getDescription()+", ";
     }
 }
