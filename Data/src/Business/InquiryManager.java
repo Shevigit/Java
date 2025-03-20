@@ -6,23 +6,52 @@ import Data.Question;
 import Data.Request;
 import HandleStoreFiles.HandleFiles;
 
+import java.awt.print.PrinterIOException;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class InquiryManager {
-//  final  static  Queue<Inquiry> q=new LinkedList<Inquiry>();
 private final  static  Queue<Inquiry> q;
     private Inquiry currentInquiry;
     HandleFiles handleFiles=new HandleFiles();
-static {
 
-q=new LinkedList<Inquiry>();
+public void loadInquiriesFromDirectory(String directoryPath) {
+    File directory = new File(directoryPath);
+    if (!directory.exists() || !directory.isDirectory()) {
+        throw new IllegalArgumentException("The specified path is not a directory: " + directoryPath);
+    }
 
+    File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+    if (files != null) {
+        for (File file : files) {
+            try {
+                Inquiry inquiry = (Inquiry) HandleFiles.readFromFile(file.getAbsolutePath());
+                if (inquiry != null) {
+                    q.add(inquiry);
+                }
+            } catch (Exception e) {
+                System.err.println("Error reading file: " + file.getName() + " -> " + e.getMessage());
+            }
+        }
+    }
 }
-private  static  InquiryManager instance;
 
+    static {
+        q = new LinkedList<Inquiry>();
+
+        try {
+            InquiryManager inquiryManager = new InquiryManager();
+            inquiryManager.loadInquiriesFromDirectory("M:\\practicum_properation\\inquirymanagement_bsg");
+            System.out.printf("succeeded: " + q.isEmpty());
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while reading the files", e);
+        }
+    }
+
+    private  static  InquiryManager instance;
     public static InquiryManager getInstance() {
         if(instance==null)
         {
