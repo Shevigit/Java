@@ -1,5 +1,6 @@
 package Data;
 
+import Business.InquiryManager;
 import HandleStoreFiles.IForSaving;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 public abstract class Inquiry implements IForSaving {
-    private  static Integer nextCodeVal = 0;
+
     protected Integer code;
     protected String description;
     protected LocalDateTime creationDate;
@@ -18,10 +19,11 @@ public abstract class Inquiry implements IForSaving {
     }
 
     @Override
-    public void parse(String[] fileText) throws  IOException{
-        this.className=fileText[0];//?
-        this.creationDate=LocalDateTime.parse(fileText[1]);
-        this.description=fileText[2];
+    public void parse(String[] fileText) throws IOException {
+        this.className = fileText[0];
+        this.code = Integer.parseInt(fileText[1]);
+        this.creationDate = LocalDateTime.parse(fileText[2]);
+        this.description = fileText[3];
     }
 
     public void setClassName(String className) {
@@ -32,15 +34,6 @@ public abstract class Inquiry implements IForSaving {
 
     public Inquiry() {
 
-        nextCodeVal++;
-    }
-
-    public static void setNextCodeVal(Integer nextCodeVal) {
-        Inquiry.nextCodeVal = nextCodeVal;
-    }
-
-    public static Integer getNextCodeVal() {
-        return nextCodeVal;
     }
 
     public Integer getCode() {
@@ -68,26 +61,26 @@ public abstract class Inquiry implements IForSaving {
     }
 
 
-    public  void fillDataByUser() {
-        className=this.getClass().getSimpleName();
-        setCode(nextCodeVal);
+    public void fillDataByUser() {
+        className = this.getClass().getSimpleName();
+        setCode(InquiryManager.getNextCodeVal());
         setCreationDate(LocalDateTime.now());
         System.out.println("enter describtion:");
-        Scanner scan=new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         setDescription(scan.nextLine());
     }
-    public  abstract void handling();
 
-    public abstract String getFolderName() ;
+    public abstract void handling();
 
-
+    public abstract String getFolderName();
 
     public String getFileName() {
-        return getCode()+"";
+        return getCode() + "";
     }
-
 
     public String getData() {
-        return this.className+", "+getCreationDate()+", "+getDescription()+", ";
+        return this.className + "," + this.getCode() + "," + getCreationDate() + "," + getDescription() + ",";
     }
+
+
 }
