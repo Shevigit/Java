@@ -16,7 +16,5 @@ public class TestingHandleFiles {
         handleFiles.saveFile(p3);
         handleFiles.saveFiles(Arrays.asList(p1,p2,p3,p4));
         handleFiles.deleteFile(p2);
-
-
     }
 }

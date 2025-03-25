@@ -1,5 +1,6 @@
 package TestSaveFile;
 
+import Data.Inquiry;
 import HandleStoreFiles.IForSaving;
 
 public class SheviForTestSaving implements IForSaving {
@@ -13,7 +14,7 @@ public class SheviForTestSaving implements IForSaving {
 
     @Override
     public String getFolderName() {
-        return getClass().getPackageName();
+        return getClass().getPackage().getName();
     }
 
     @Override
@@ -24,5 +25,10 @@ public class SheviForTestSaving implements IForSaving {
     @Override
     public String getData() {
         return id + "," + name;
+    }
+
+    @Override
+    public void parse(String[] fileText) {
+
     }
 }
