@@ -1,7 +1,7 @@
 package TestSaveFile;
 
 import HandleStoreFiles.HandleFiles;
-
+import java.io.File;
 import java.util.Arrays;
 
 public class TestingHandleFiles {
@@ -16,5 +16,15 @@ public class TestingHandleFiles {
         handleFiles.saveFile(p3);
         handleFiles.saveFiles(Arrays.asList(p1,p2,p3,p4));
         handleFiles.deleteFile(p2);
-    }
-}
+        SheviForTestSaving p5 = new SheviForTestSaving("123456789","sucess BH!");
+       boolean x= handleFiles.saveCSV(p5, "id");
+        System.out.println(x);
+        SheviForTestSaving readP5 = new SheviForTestSaving("123456789","sucess BH!");
+        handleFiles.saveCSV(p5, "id");
+        File dir = new File("M:\\practicum_properation\\inquirymanagement_bsg");
+        dir.mkdir();
+        File file = new File("M:\\practicum_properation\\inquirymanagement_bsg\\13");
+        file.createNewFile();
+
+
+}}
