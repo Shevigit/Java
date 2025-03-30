@@ -5,10 +5,7 @@ import Data.Inquiry;
 import Data.Question;
 import Data.Request;
 import HandleStoreFiles.HandleFiles;
-
-import java.awt.print.PrinterIOException;
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -34,7 +31,6 @@ public class InquiryManager {
     public static Integer getNextCodeVal() {
         return nextCodeVal;
     }
-
     private Inquiry currentInquiry;
     HandleFiles handleFiles=new HandleFiles();
 
@@ -43,8 +39,7 @@ public class InquiryManager {
         if (!directory.exists() || !directory.isDirectory()) {
             throw new IllegalArgumentException("The specified path is not a directory: " + directoryPath);
         }
-
-        File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+        File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".csv"));
         if (files != null) {
 
             for (File file : files) {
@@ -105,7 +100,7 @@ public class InquiryManager {
 
     }
 
-    public void inquiryCreation () throws IOException {
+    public void inquiryCreation () throws Exception {
 
         int digit=0;
         System.out.println("enter:");
@@ -123,8 +118,8 @@ public class InquiryManager {
             currentInquiry.fillDataByUser();
             System.out.println(nextCodeVal);
             q.add(currentInquiry);
-            handleFiles.saveFile(currentInquiry);
-            System.out.println("enter:");
+             handleFiles.saveCSV(currentInquiry,currentInquiry.getFolderName()+"\\"+currentInquiry.getFileName());
+             System.out.println("enter:");
             System.out.println("\t 1 to question");
             System.out.println("\t 2 to request");
             System.out.println("\t 3 to complaint");

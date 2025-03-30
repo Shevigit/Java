@@ -2,21 +2,18 @@ package Data;
 
 import Business.InquiryManager;
 import HandleStoreFiles.IForSaving;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Scanner;
 
 public abstract class Inquiry implements IForSaving {
-
-    protected Integer code;
-    protected String description;
-    protected LocalDateTime creationDate;
-
     public String getClassName() {
         return className;
     }
+    protected String description;
+    protected LocalDateTime creationDate;
+    protected Integer code;
+
 
     @Override
     public void parse(String[] fileText) throws IOException {
@@ -75,7 +72,7 @@ public abstract class Inquiry implements IForSaving {
     public abstract String getFolderName();
 
     public String getFileName() {
-        return getCode() + "";
+        return getClassName().charAt(0)+""+ getCode() + "";
     }
 
     public String getData() {
