@@ -1,21 +1,12 @@
 package HandleStoreFiles;
 
-import Data.Complaint;
-import Data.Inquiry;
-import Data.Question;
-import Data.Request;
-
 import java.io.*;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-//import java.io.File;
-//import java.io.FileOutputStream;
-//import java.io.OutputStream;
-//import java.io.OutputStreamWriter;
+
 import java.lang.reflect.Constructor;
 
 public class HandleFiles {
@@ -56,23 +47,24 @@ public class HandleFiles {
         }
     }
 
-    public static Object readFromFile(String filePath) throws Exception {
-        String[] data = new String[4];
+    public static IForSaving readFromFile(String filePath) throws Exception {
+        int commaCount=   filePath.length() - (filePath.replace(",", "").length());
+        String[] data = new String[commaCount+1];
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         String line = br.readLine();
         if (line != null) {
             data = line.split(",");
-            Inquiry inquiry;
+            IForSaving iforsaving;
             String fullClassName = data[0];
             try {
                 Class clazz = Class.forName("Data." + fullClassName);
-                if (Inquiry.class.isAssignableFrom(clazz)) {
+                if (IForSaving.class.isAssignableFrom(clazz)){
                     Constructor<?> constructor = clazz.getDeclaredConstructor();
-                    inquiry = (Inquiry) constructor.newInstance();
-                    inquiry.parse(data);
-                    return inquiry;
+                    iforsaving=(IForSaving) constructor.newInstance();
+                    ((IForSaving)iforsaving).parse(data);
+                    return  iforsaving;
                 } else {
-                    throw new IllegalArgumentException("Class does not extend Inquiry");
+                    throw new IllegalArgumentException("Class does not extend IForSaving");
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -124,15 +116,13 @@ public class HandleFiles {
         dir.mkdir();
         String fPath=filePath.substring(index+1);
         File file = new File(dPath+"\\"+filePath.substring(index+1));
-            try (BufferedWriter br = new BufferedWriter(new FileWriter(filePath + ".csv"))) {
-                br.write(getCSVDataRecursive(obj));
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-
-
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(filePath + ".csv"))) {
+            br.write(getCSVDataRecursive(obj));
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

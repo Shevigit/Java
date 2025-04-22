@@ -29,8 +29,10 @@ public class Main {
 
 
         InquiryManager inquiryManager = InquiryManager.getInstance();
+        inquiryManager.defineRepresentative();
         inquiryManager.inquiryCreation();
         inquiryManager.processInquiryManager();
+
 
 
     }
