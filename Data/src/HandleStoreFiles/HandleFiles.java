@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
+import  Exception.InquiryRunTimeException;
 import java.lang.reflect.Constructor;
 
 public class HandleFiles {
@@ -119,9 +119,9 @@ public class HandleFiles {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(filePath + ".csv"))) {
             br.write(getCSVDataRecursive(obj));
             return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        } catch (InquiryRunTimeException e) {
+            throw new InquiryRunTimeException(Integer.parseInt(file.getName().substring(1, file.getName().indexOf('.'))));
+
         }
     }
 
