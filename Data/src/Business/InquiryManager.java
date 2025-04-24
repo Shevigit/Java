@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import Exception.InquiryException;
+import Exception.InquiryRunTimeException;
 
 public class InquiryManager {
     private final  static  Queue<Inquiry> q;
@@ -48,22 +50,24 @@ public class InquiryManager {
         InquiryManager inquiryManager = new InquiryManager();
         try {
             for (String folderName : folders) {
-
-                File directory = new File(folderName);
-                if (directory.exists() || directory.isDirectory()) {
-                    inquiryManager.loadInquiriesFromDirectory(folderName);
+                 File directory = new File(folderName);
+                 if (directory.exists() || directory.isDirectory()) {
+                        inquiryManager.loadInquiriesFromDirectory(folderName);
                 }
-            }
+             }
             File directory = new File("Representative");
             if (directory.exists() || directory.isDirectory()) {
                 inquiryManager.loadRepresentativeFromDirectory("Representative");
             }
-        } catch (Exception e) {
+            System.out.printf("succeeded: " + q.isEmpty() + "\n");
+        }
+    catch (InquiryRunTimeException e) {
+        throw new InquiryRunTimeException(nextCodeVal);
+    }
+        catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.printf("succeeded: " + q.isEmpty() + "\n");
-
-    }
+   }
 
 
     public  void defineRepresentative(){
@@ -112,7 +116,7 @@ public class InquiryManager {
         if (!directory.exists() || !directory.isDirectory()) {
             throw new IllegalArgumentException("The specified path is not a directory: " + directoryPath);
         }
-        File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".csv"));
+        File [] files= directory.listFiles();
         if (files != null) {
 
             for (File file : files) {
@@ -123,7 +127,13 @@ public class InquiryManager {
                     if (inquiry != null) {
                         q.add(inquiry);
                     }
-                } catch (Exception e) {
+                    if(file.getName().toLowerCase().endsWith(".txt")){
+                        throw new InquiryException(Integer.parseInt(file.getName().substring(1, file.getName().indexOf('.'))));
+                    }
+
+                }
+
+                catch (Exception e) {
                     System.err.println("Error reading file: " + file.getName() + " -> " + e.getMessage());
                 }
             }
@@ -146,7 +156,10 @@ public class InquiryManager {
                     if (representative != null) {
                         representativeList.add(representative);
                     }
-                } catch (Exception e) {
+                } catch (InquiryRunTimeException e) {
+                    e.printStackTrace();
+                                }
+                catch (Exception e){
                     System.err.println("Error reading file: " + file.getName() + " -> " + e.getMessage());
                 }
             }
