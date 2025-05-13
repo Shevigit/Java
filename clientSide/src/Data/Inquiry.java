@@ -2,11 +2,13 @@ package Data;
 
 import Business.InquiryManagerClient;
 import HandleStoreFiles.IForSaving;
+
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public abstract class Inquiry implements IForSaving {
+public abstract class Inquiry implements IForSaving, Serializable {
     public String getClassName() {
         return className;
     }
@@ -60,7 +62,7 @@ public abstract class Inquiry implements IForSaving {
 
     public void fillDataByUser() {
         className = this.getClass().getSimpleName();
-       // setCode(InquiryManagerClient.getNextCodeVal());
+        // setCode(InquiryManagerClient.getNextCodeVal());
         setCreationDate(LocalDateTime.now());
         System.out.println("enter describtion:");
         Scanner scan = new Scanner(System.in);
@@ -79,5 +81,13 @@ public abstract class Inquiry implements IForSaving {
         return this.className + "," + this.getCode() + "," + getCreationDate() + "," + getDescription() + ",";
     }
 
-
+//    @Override
+//    public String toString() {
+//        return "Inquiry{" +
+//                "description='" + description + '\'' +
+//                ", creationDate=" + creationDate +
+//                ", code=" + code +
+//                ", className='" + className + '\'' +
+//                '}';
+//    }
 }

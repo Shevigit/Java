@@ -1,6 +1,12 @@
 package ClientServer;
 
-public class ResponseData {
+import HandleStoreFiles.IForSaving;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class ResponseData implements Serializable {
+    private static final long serialVersionUID = 1L;
     ResponseStatus status;
     String message;
     Object result;
@@ -18,6 +24,10 @@ public class ResponseData {
         this.result = result;
     }
     public ResponseData() {
+    }
+    public ResponseData(ResponseStatus status, String message) {
+        this.status = status;
+        this.message = message;
     }
 
     public String getMessage() {
@@ -38,5 +48,31 @@ public class ResponseData {
         this.result = result;
     }
 
+//    @Override
+//    public String toString() {
+//        String resultString;
+//        if (result instanceof List) {
+//            // If result is a list, you might want to join the toString results of each element
+//            StringBuilder sb = new StringBuilder("[");
+//            List<?> resultList = (List<?>) result; // Cast to List for processing
+//            for (Object obj : resultList) {
+//                sb.append(obj.toString()).append(", ");
+//            }
+//            // Remove the trailing comma and space, if there are any results
+//            if (sb.length() > 1) {
+//                sb.setLength(sb.length() - 2);
+//            }
+//            sb.append("]");
+//            resultString = sb.toString();
+//        } else {
+//            resultString = (result != null) ? result.toString() : "null";
+//        }
+//
+//        return "ResponseData{" +
+//                "status=" + status +
+//                ", message='" + message + '\'' +
+//                ", result=" + resultString +
+//                '}';
+//    }
 
 }

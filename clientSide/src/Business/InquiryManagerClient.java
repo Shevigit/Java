@@ -3,25 +3,26 @@ package Business;
 import ClientServer.InquiryManagerActions;
 import ClientServer.RequestData;
 import ClientServer.ResponseData;
+import ClientServer.ResponseStatus;
 import Data.Complaint;
 import Data.Inquiry;
 import Data.Question;
 import Data.Request;
+import HandleStoreFiles.IForSaving;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class InquiryManagerClient {
+public class InquiryManagerClient  {
     Socket connectToServer;
-    RequestData requestData;
-    ResponseData responseData;
     Inquiry currentInquiry;
-    List inquiryList=new ArrayList<>();
+    List inquiryList=new ArrayList<Inquiry>();
 
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
@@ -41,6 +42,7 @@ public class InquiryManagerClient {
         System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 3 to exit");
         int num=scanner.nextInt();
         int digit=0;
+        RequestData requestData;
         while (num>0&&num<3){
             switch (num){
                 case 1:
@@ -52,14 +54,17 @@ public class InquiryManagerClient {
                     inquiryManagerActions=InquiryManagerActions.ADD_INQUIRY;
                     System.out.println("Enter 1 to question\nEnter 2 to request\nEnter 3 to complaint\nEnter 4 to exit");
                     digit=scanner.nextInt();
-                     while(digit>0&&digit<4)
+                    while(digit>0&&digit<4)
                     {
                         createInquiry(digit);
+                        //  InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
+                        currentInquiry.fillDataByUser();
                         inquiryList.add(currentInquiry);
                         System.out.println("Enter 1 to question\n Enter 2 to request\nEnter 3 to complaint\n Enter 4 to exit");
                         digit=scanner.nextInt();
+
                     }
-                      requestData=new RequestData(inquiryManagerActions,inquiryList);
+                    requestData=new RequestData(inquiryManagerActions,inquiryList);
                     sendRequestToServer(requestData);
                     break;
                 default:
@@ -67,8 +72,8 @@ public class InquiryManagerClient {
 
             }
             System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 3 to exit");
-             num=scanner.nextInt();
-         }
+            num=scanner.nextInt();
+        }
 
     }
 
@@ -96,20 +101,30 @@ public class InquiryManagerClient {
         try{
             objectOutputStream=new ObjectOutputStream(connectToServer.getOutputStream());
             objectOutputStream.writeObject(requestData);
-            objectOutputStream.close();
-
+            //     objectOutputStream.close();
+            objectOutputStream.flush();
             objectInputStream=new ObjectInputStream(connectToServer.getInputStream());
-            responseData=(ResponseData) objectInputStream.readObject();
-            System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage()
-            + " resualt: " + responseData.getResult());
 
+            ResponseData responseData=(ResponseData) objectInputStream.readObject();
+            //        Inquiry i=(Inquiry) responseData.getResult();
+            System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage()
+                    + " resualt: " + responseData.getResult());
+//                        System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage()
+//            + " resualt: " + ((IForSaving) responseData.getResult()).getData());
+            // System.out.println(responseData.toString());
+            //   Thread.currentThread().sleep(1000*10);
         }
         catch (IOException e){
-            e.printStackTrace();
+            ResponseData responseData=new ResponseData(ResponseStatus.FAIL,"The response faailed!");
+            System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage());
+
         }
         catch (ClassNotFoundException e){
             e.printStackTrace();
         }
+//        catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
     }
 
 }

@@ -48,7 +48,7 @@ public class Representative  implements IForSaving{
     public Representative(String firstName,String identity) {
         this.firstName = firstName;
         this.identity=identity;
-       // codeWorker= InquiryManagerClient.getNextCodeWorker();
+        // codeWorker= InquiryManagerClient.getNextCodeWorker();
 
     }
 
