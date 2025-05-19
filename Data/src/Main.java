@@ -1,7 +1,9 @@
 import Business.InquiryHandling;
 import Business.InquiryManager;
+import ClientServer.InquiryManagerServer;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -28,12 +30,15 @@ public class Main {
 //        handling4.run();
 
 
-        InquiryManager inquiryManager = InquiryManager.getInstance();
-        inquiryManager.defineRepresentative();
-        inquiryManager.inquiryCreation();
-        inquiryManager.processInquiryManager();
+//        InquiryManager inquiryManager = InquiryManager.getInstance();
+//        inquiryManager.defineRepresentative();
+//        inquiryManager.inquiryCreation();
+//        inquiryManager.processInquiryManager();
 
-
+        ServerSocket serverSocket=new ServerSocket(5000);
+        InquiryManagerServer inquiryManagerServer=new InquiryManagerServer(serverSocket);
+        inquiryManagerServer.start();
+        System.out.println("server start to run");
 
     }
 }

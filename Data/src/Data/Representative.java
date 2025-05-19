@@ -6,7 +6,7 @@ import HandleStoreFiles.IForSaving;
 import java.io.IOException;
 
 public class Representative  implements IForSaving{
-    private  String className;
+    private  String className;//ניתן לבטל
     private  String firstName;
     private String identity;
     private  int codeWorker;

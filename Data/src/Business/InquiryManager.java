@@ -10,7 +10,7 @@ import Exception.InquiryException;
 import Exception.InquiryRunTimeException;
 
 public class InquiryManager {
-    private final  static  Queue<Inquiry> q;
+    public final  static  Queue<Inquiry> q;
     private  static Integer nextCodeVal = 0;
     private final static Queue<Representative> representativeList;
     private  static Integer nextCodeWorker = 100;
@@ -43,6 +43,7 @@ public class InquiryManager {
     private Inquiry currentInquiry;
     HandleFiles handleFiles=new HandleFiles();
 
+
     static {
         q = new LinkedList<Inquiry>();
         representativeList = new LinkedList<Representative>();
@@ -50,24 +51,24 @@ public class InquiryManager {
         InquiryManager inquiryManager = new InquiryManager();
         try {
             for (String folderName : folders) {
-                 File directory = new File(folderName);
-                 if (directory.exists() || directory.isDirectory()) {
-                        inquiryManager.loadInquiriesFromDirectory(folderName);
+                File directory = new File(folderName);
+                if (directory.exists() || directory.isDirectory()) {
+                    inquiryManager.loadInquiriesFromDirectory(folderName);
                 }
-             }
+            }
             File directory = new File("Representative");
             if (directory.exists() || directory.isDirectory()) {
                 inquiryManager.loadRepresentativeFromDirectory("Representative");
             }
             System.out.printf("succeeded: " + q.isEmpty() + "\n");
         }
-    catch (InquiryRunTimeException e) {
-        throw new InquiryRunTimeException(nextCodeVal);
-    }
+        catch (InquiryRunTimeException e) {
+            throw new InquiryRunTimeException(nextCodeVal);
+        }
         catch (Exception e) {
             e.printStackTrace();
         }
-   }
+    }
 
 
     public  void defineRepresentative(){
@@ -123,7 +124,7 @@ public class InquiryManager {
                 try {
                     setNextCodeVal(nextCodeVal+1);
                     Inquiry inquiry = (Inquiry) HandleFiles.readFromFile(file.getAbsolutePath());
-                    System.out.println(nextCodeVal);
+                    //   System.out.println(nextCodeVal);
                     if (inquiry != null) {
                         q.add(inquiry);
                     }
@@ -152,13 +153,13 @@ public class InquiryManager {
                 try {
                     setNextCodeWorker(nextCodeWorker+1);
                     Representative representative = (Representative) HandleFiles.readFromFile(file.getAbsolutePath());
-                    System.out.println("Representative" + nextCodeWorker);
+                    //  System.out.println("Representative" + nextCodeWorker);
                     if (representative != null) {
                         representativeList.add(representative);
                     }
                 } catch (InquiryRunTimeException e) {
                     e.printStackTrace();
-                                }
+                }
                 catch (Exception e){
                     System.err.println("Error reading file: " + file.getName() + " -> " + e.getMessage());
                 }
@@ -166,64 +167,63 @@ public class InquiryManager {
         }
     }
 
+//
+//    public  void createInquiry(int digit)
+//    {
+//
+//        switch (digit){
+//            case 1:
+//                currentInquiry=new Question();
+//                break;
+//            case 2:
+//                currentInquiry=new Request();
+//                break;
+//            case 3:
+//                currentInquiry=new Complaint();
+//                break;
+//            default:
+//                break;
+//        }
+//
+//    }
+//
+//    public void inquiryCreation ()   {
+//
+//        int digit=0;
+//        System.out.println("enter:");
+//        System.out.println("\t 1 to question");
+//        System.out.println("\t 2 to request");
+//        System.out.println("\t 3 to complaint");
+//        System.out.println("\t 4 to exit");
+//        Scanner scan=new Scanner(System.in);
+//        digit=scan.nextInt();
+//        try{
+//            while (digit>0&&digit<4)
+//            {
+//                createInquiry(digit);
+//
+//                setNextCodeVal(nextCodeVal+1);
+//                currentInquiry.fillDataByUser();
+//                System.out.println(nextCodeVal);
+//                q.add(currentInquiry);
 
-
-
-    public  void createInquiry(int digit)
-    {
-
-        switch (digit){
-            case 1:
-                currentInquiry=new Question();
-                break;
-            case 2:
-                currentInquiry=new Request();
-                break;
-            case 3:
-                currentInquiry=new Complaint();
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    public void inquiryCreation ()   {
-
-        int digit=0;
-        System.out.println("enter:");
-        System.out.println("\t 1 to question");
-        System.out.println("\t 2 to request");
-        System.out.println("\t 3 to complaint");
-        System.out.println("\t 4 to exit");
-        Scanner scan=new Scanner(System.in);
-        digit=scan.nextInt();
-        try{
-            while (digit>0&&digit<4)
-            {
-                createInquiry(digit);
-
-                setNextCodeVal(nextCodeVal+1);
-                currentInquiry.fillDataByUser();
-                System.out.println(nextCodeVal);
-                q.add(currentInquiry);
-                handleFiles.saveCSV(currentInquiry,currentInquiry.getFolderName()+"\\"+currentInquiry.getFileName());
-                System.out.println("enter:");
-                System.out.println("\t 1 to question");
-                System.out.println("\t 2 to request");
-                System.out.println("\t 3 to complaint");
-                System.out.println("\t 4 to exit");
-                scan=new Scanner(System.in);
-                digit=scan.nextInt();
-
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-    }
+    //                handleFiles.saveCSV(currentInquiry,currentInquiry.getFolderName()+"\\"+currentInquiry.getFileName());
+//                System.out.println("enter:");
+//                System.out.println("\t 1 to question");
+//                System.out.println("\t 2 to request");
+//                System.out.println("\t 3 to complaint");
+//                System.out.println("\t 4 to exit");
+//                scan=new Scanner(System.in);
+//                digit=scan.nextInt();
+//
+//            }
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
     public  void  processInquiryManager() {
         if (q != null) {
             while (!q.isEmpty()) {
