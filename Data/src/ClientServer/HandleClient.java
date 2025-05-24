@@ -38,6 +38,7 @@ public class HandleClient extends Thread  {
 
     public void handleClientRequest() {
         try {
+      
 
             ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
             RequestData requestData = (RequestData) objectInputStream.readObject();
@@ -61,8 +62,8 @@ public class HandleClient extends Thread  {
                            inq.setCode(InquiryManager.getNextCodeVal());
          //                   InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
                             try {
-
-                                handleFiles.saveCSV((Inquiry) parameter, inq.getFolderName() + "\\" + inq.getFileName());
+                                registerInquiry();
+                               // handleFiles.saveCSV((Inquiry) parameter, inq.getFolderName() + "\\" + inq.getFileName());
 
                             } catch (Exception e) {
                                 e.printStackTrace();
