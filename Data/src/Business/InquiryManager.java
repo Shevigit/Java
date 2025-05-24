@@ -237,33 +237,33 @@ public class InquiryManager {
 
 
 // Saves inquiry to CSV with assigned representative and initial "open" status.
-public Inquiry registerInquiry(List<Object> params) throws IOException {
-    if (params != null && !params.isEmpty() && params.get(0) instanceof Inquiry) {
-        Inquiry inquiry = (Inquiry) params.get(0);
-        setNextCodeVal(nextCodeVal + 1);
-        inquiry.setCode(getNextCodeVal());
-        allInquiry.add(inquiry);
-        System.out.println(InquiryManager.allInquiry);
-        String pathFile = handleFiles.getDirectoryPath(inquiry);
-        String representativeCode = inquiryToRepresetative(inquiry);
-        inquiry.setRepresentativeCode(representativeCode);
-        inquiry.setStatusInquiry(StatusInquiry.OPEN);
-        handleFiles.saveCSV(inquiry, pathFile);
-        return inquiry;
-    }
-    return null;
-}
+//public Inquiry registerInquiry(List<Object> params) throws IOException {
+  //  if (params != null && !params.isEmpty() && params.get(0) instanceof Inquiry) {
+    //    Inquiry inquiry = (Inquiry) params.get(0);
+    //    setNextCodeVal(nextCodeVal + 1);
+    //    inquiry.setCode(getNextCodeVal());
+    //    allInquiry.add(inquiry);
+    //    System.out.println(InquiryManager.allInquiry);
+     //   String pathFile = handleFiles.getDirectoryPath(inquiry);
+     //   String representativeCode = inquiryToRepresetative(inquiry);
+      //  inquiry.setRepresentativeCode(representativeCode);
+      //  inquiry.setStatusInquiry(StatusInquiry.OPEN);
+    //    handleFiles.saveCSV(inquiry, pathFile);
+    //    return inquiry;
+   // }
+  //  return null;
+//}
 
 // connect inquiry to an available representative.
-public String inquiryToRepresetative(Inquiry inquiry) {
-    Representative representative = avilableRepresentative.poll();
-    if (representative != null) {
-        requestToAgentMap.put(representative, inquiry);
-        return representative.getCode();
-    } else {
-        System.out.println("No representatives are currently available.");
-        return null;
-    }
-}
+//public String inquiryToRepresetative(Inquiry inquiry) {
+ //   Representative representative = avilableRepresentative.poll();
+ //   if (representative != null) {
+ //       requestToAgentMap.put(representative, inquiry);
+  //      return representative.getCode();
+  //  } else {
+  //      System.out.println("No representatives are currently available.");
+   //     return null;
+   // }
+//}
 
 }
