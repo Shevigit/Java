@@ -39,11 +39,11 @@ public class InquiryManagerClient  {
     public  void execut(){
         Scanner scanner=new Scanner(System.in);
         InquiryManagerActions inquiryManagerActions;
-        System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 3 to exit");
+        System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 4 to get count of the Inquiries in the specific month\nEnter 5 to exit");
         int num=scanner.nextInt();
         int digit=0;
         RequestData requestData;
-        while (num>0&&num<3){
+        while (num>0&&num<5){
             switch (num){
                 case 1:
                     inquiryManagerActions=InquiryManagerActions.ALL_INQUIRY;
@@ -56,6 +56,7 @@ public class InquiryManagerClient  {
                     digit=scanner.nextInt();
                     while(digit>0&&digit<4)
                     {
+
                         createInquiry(digit);
                         //  InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
                         currentInquiry.fillDataByUser();
@@ -67,11 +68,19 @@ public class InquiryManagerClient  {
                     requestData=new RequestData(inquiryManagerActions,inquiryList);
                     sendRequestToServer(requestData);
                     break;
+                case 4:{
+                    inquiryManagerActions=InquiryManagerActions.GET_COUNTINQUIRY;
+                    System.out.println("Enter number of month");
+                    digit=scanner.nextInt();
+                    requestData=new RequestData(inquiryManagerActions,digit);
+                    sendRequestToServer(requestData);
+                    break;
+                }
                 default:
                     break;
 
             }
-            System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 3 to exit");
+            System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 4 to get count of the Inquiries in the specific month\nEnter 5 to exit");
             num=scanner.nextInt();
         }
 
