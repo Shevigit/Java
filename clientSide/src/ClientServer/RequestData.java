@@ -9,7 +9,7 @@ import java.util.List;
 public class RequestData implements Serializable {
     private static final long serialVersionUID = 1L;
     InquiryManagerActions action;
-    List parameters=new ArrayList<Inquiry>();
+    Object parameters;
 
     public RequestData(InquiryManagerActions action) {
         this.action = action;
@@ -27,7 +27,7 @@ public class RequestData implements Serializable {
     }
 
 
-    public RequestData(InquiryManagerActions action, List parameters) {
+    public RequestData(InquiryManagerActions action, Object parameters) {
         this.action = action;
         this.parameters = parameters;
     }
