@@ -1,6 +1,7 @@
 import Business.InquiryHandling;
 import Business.InquiryManager;
 import Business.RepresentativeManagement;
+
 import ClientServer.InquiryManagerServer;
 
 import java.io.IOException;

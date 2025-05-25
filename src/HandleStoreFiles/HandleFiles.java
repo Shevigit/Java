@@ -23,13 +23,21 @@ public class HandleFiles {
         outputStreamWriter.flush();
     }
 
-    public void deleteFile(IForSaving forSaving) throws IOException {
 
-        File f = new File(forSaving.getFileName());
-        f.delete();
+    public void deleteFile(IForSaving forSaving) throws IOException {
+        File f = new File(forSaving.getFolderName() + "\\" + forSaving.getFileName());
+        System.out.println("file: " + f.getPath());
+        System.out.println(f);
+        boolean deleted = f.delete();
+        if (deleted) {
+            System.out.println("File deleted successfully.");
+        } else {
+            System.out.println("Failed to delete the file.");
+        }
     }
 
-    public void updateFile(IForSaving forSaving) throws IOException {
+
+        public void updateFile(IForSaving forSaving) throws IOException {
         saveFile(forSaving);
     }
 

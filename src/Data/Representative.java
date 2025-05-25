@@ -58,7 +58,7 @@ public class Representative  implements IForSaving{
 
     @Override
     public String getFileName() {
-        return codeWorker+"";
+        return codeWorker+".csv";
     }
 
     @Override
@@ -69,8 +69,9 @@ public class Representative  implements IForSaving{
     @Override
     public void parse(String[] fileText) throws IOException {
         this.className=fileText[0];
-        this.firstName = fileText[1];
-        this.identity = fileText[2];
-        this.codeWorker = Integer.parseInt(fileText[3]);
+        this.codeWorker = Integer.parseInt(fileText[1]);
+        this.firstName = fileText[2];
+        this.identity = fileText[3];
+
     }
 }

@@ -13,7 +13,7 @@ public class RepresentativeManagement extends Thread{
     HandleFiles handleFiles=new HandleFiles();
 
 @Override
-    public void start(){
+    public void run(){
     int key=1,codeWorker;
     Scanner scan = new Scanner(System.in);
     while (key==1||key==2) {
@@ -35,8 +35,9 @@ public class RepresentativeManagement extends Thread{
     }
 }
     public  void addRepresentative(){
+             Scanner scan2 = new Scanner(System.in);
             System.out.println("Enter representative name");
-            Scanner scan2 = new Scanner(System.in);
+
             String name = scan2.nextLine();
             System.out.println("Enter representative identity");
             String identity=scan2.nextLine();
@@ -70,6 +71,7 @@ public class RepresentativeManagement extends Thread{
             if (r.getCodeWorker()==codeWorker) {
                 try {
                     handleFiles.deleteFile(r);
+                    System.out.printf("representative: "+r.getCodeWorker()+" delete");
                 }
                 catch (IOException ex){
                     ex.printStackTrace();
