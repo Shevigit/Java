@@ -19,7 +19,6 @@ public class HandleClient extends Thread  {
     Socket clientSocket;
     HandleFiles handleFiles = new HandleFiles();
 
-    /// /???
     public HandleClient(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
@@ -38,6 +37,7 @@ public class HandleClient extends Thread  {
 
     public void handleClientRequest() {
         try {
+
             ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
             RequestData requestData = (RequestData) objectInputStream.readObject();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
