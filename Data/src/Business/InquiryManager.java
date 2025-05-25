@@ -45,6 +45,7 @@ public class InquiryManager {
 
 
     static {
+    loadRepresentativeFromDirectory()
         q = new LinkedList<Inquiry>();
         representativeList = new LinkedList<Representative>();
         String[] folders = {"Question", "Request", "Complaint"};
