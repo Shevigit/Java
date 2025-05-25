@@ -30,12 +30,12 @@ public class Main {
 //        handling4.run();
 
 
-//        InquiryManager inquiryManager = InquiryManager.getInstance();
-//        inquiryManager.defineRepresentative();
+        InquiryManager inquiryManager = InquiryManager.getInstance();
+        inquiryManager.defineRepresentative();
 //        inquiryManager.inquiryCreation();
 //        inquiryManager.processInquiryManager();
 
-        ServerSocket serverSocket=new ServerSocket(5000);
+        ServerSocket serverSocket=new ServerSocket(9000);
         InquiryManagerServer inquiryManagerServer=new InquiryManagerServer(serverSocket);
         inquiryManagerServer.start();
         System.out.println("server start to run");

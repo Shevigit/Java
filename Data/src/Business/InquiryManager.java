@@ -12,7 +12,7 @@ import Exception.InquiryRunTimeException;
 public class InquiryManager {
     public final  static  Queue<Inquiry> q;
     private  static Integer nextCodeVal = 0;
-    private final static Queue<Representative> representativeList;
+    public final static Queue<Representative> representativeList;
     private  static Integer nextCodeWorker = 100;
 
     private InquiryManager() {}
@@ -45,7 +45,7 @@ public class InquiryManager {
 
 
     static {
-    loadRepresentativeFromDirectory()
+//    loadRepresentativeFromDirectory()
         q = new LinkedList<Inquiry>();
         representativeList = new LinkedList<Representative>();
         String[] folders = {"Question", "Request", "Complaint"};

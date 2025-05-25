@@ -1,6 +1,7 @@
 package Data;
 
 import Business.InquiryManager;
+import ClientServer.StatusInquiry;
 import HandleStoreFiles.IForSaving;
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,7 +15,8 @@ public abstract class Inquiry implements IForSaving ,Serializable{
     protected String description;
     protected LocalDateTime creationDate;
     protected Integer code;
-
+    StatusInquiry status;
+    Representative representative;
 
     @Override
     public void parse(String[] fileText) throws IOException {

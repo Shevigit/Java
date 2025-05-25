@@ -3,7 +3,7 @@ package ClientServer;
 import Business.InquiryManager;
 import HandleStoreFiles.HandleFiles;
 import Data.Inquiry;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,7 +25,7 @@ public class HandleClient extends Thread  {
     }
 
     @Override
-    public synchronized void start() {
+    public synchronized void run() {
         try {
             while(true){
                 handleClientRequest();
@@ -55,15 +55,16 @@ public class HandleClient extends Thread  {
             } else {
                 if (requestData.action == InquiryManagerActions.ADD_INQUIRY) {
                     if (requestData.parameters != null) {
-                        for (Object parameter : requestData.parameters) {
+                        ArrayList<Inquiry> listInq=(ArrayList<Inquiry>) requestData.parameters;
+                        for (Object parameter :listInq) {
                             Inquiry inq = (Inquiry) parameter;
                             InquiryManager.q.add(inq);
                             InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
                            inq.setCode(InquiryManager.getNextCodeVal());
          //                   InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
                             try {
-                                registerInquiry();
-                               // handleFiles.saveCSV((Inquiry) parameter, inq.getFolderName() + "\\" + inq.getFileName());
+//                                registerInquiry();
+                                handleFiles.saveCSV((Inquiry) parameter, inq.getFolderName() + "\\" + inq.getFileName());
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -75,6 +76,12 @@ public class HandleClient extends Thread  {
                         objectOutputStream.flush();
                     }
                 }
+                else{
+                    if(requestData.action == InquiryManagerActions.GET_COUNTINQUIRY){
+                        int digit=GetCountInquiriesOfMonth((int)requestData.parameters);
+                        objectOutputStream.writeObject(new ResponseData("The inquiries received succesfully", ResponseStatus.SCCESS, digit));
+                    }
+                }
             }
             objectOutputStream.flush();
         } catch (IOException e) {
@@ -83,5 +90,19 @@ public class HandleClient extends Thread  {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    public int GetCountInquiriesOfMonth(int numOfMonth){
+        int count=0;
+//        List list = new ArrayList<Inquiry>();
+        Queue<Inquiry> tempQueue = new LinkedList<>(InquiryManager.q);
+        while(!tempQueue.isEmpty()){
+            Inquiry inquiry=  tempQueue.poll();
+            if(inquiry.getCreationDate().getMonthValue()==numOfMonth){
+                count++;
+            }
+//                list.add(inquiry);
+            InquiryManager.q.add(inquiry);
+        }
+        return count;
     }
 }
