@@ -32,7 +32,7 @@ public class Main {
 //        handling4.run();
 
 
-        InquiryManager inquiryManager = InquiryManager.getInstance();
+//        InquiryManager inquiryManager = InquiryManager.getInstance();
 //        inquiryManager.inquiryCreation();
 //        inquiryManager.processInquiryManager();
 //        RepresentativeManagement r=new RepresentativeManagement();

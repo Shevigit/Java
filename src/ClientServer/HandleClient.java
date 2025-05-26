@@ -16,10 +16,12 @@ import java.util.List;
 import java.util.Queue;
 
 public class HandleClient extends Thread  {
-    Socket clientSocket;
+    private Socket clientSocket ;
     HandleFiles handleFiles = new HandleFiles();
+    ResponseData response = null ;
+    Inquiry inquiry = null ;
+    InquiryManager   inquiryManager = InquiryManager.getInstance ();
 
-    /// /???
     public HandleClient(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
@@ -38,59 +40,57 @@ public class HandleClient extends Thread  {
 
     public void handleClientRequest() {
         try {
-      
-
             ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
             RequestData requestData = (RequestData) objectInputStream.readObject();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-            if (requestData.action == InquiryManagerActions.ALL_INQUIRY) {
-                List list = new ArrayList<Inquiry>();
-                Queue<Inquiry> tempQueue = new LinkedList<>(InquiryManager.q);
-                while (!tempQueue.isEmpty()) {
-                    Inquiry data = tempQueue.poll();
-                    list.add(data);
-                    InquiryManager.q.add(data);
+            switch (requestData.action) {
+                case InquiryManagerActions.ALL_INQUIRY: {
+                    List list = new ArrayList<Inquiry>();
+                    Queue<Inquiry> tempQueue = new LinkedList<>(InquiryManager.q);
+                    while (!tempQueue.isEmpty()) {
+                        Inquiry data = tempQueue.poll();
+                        list.add(data);
+                        InquiryManager.q.add(data);
+                    }
+                    objectOutputStream.writeObject(new ResponseData("The inquiries received succesfully", ResponseStatus.SCCESS, list));
+                    break;
                 }
-                objectOutputStream.writeObject(new ResponseData("The inquiries received succesfully", ResponseStatus.SCCESS, list));
-            } else {
-                if (requestData.action == InquiryManagerActions.ADD_INQUIRY) {
-                    if (requestData.parameters != null) {
-                        ArrayList<Inquiry> listInq=(ArrayList<Inquiry>) requestData.parameters;
-                        for (Object parameter :listInq) {
-                            Inquiry inq = (Inquiry) parameter;
-                            InquiryManager.q.add(inq);
-                            InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
-                           inq.setCode(InquiryManager.getNextCodeVal());
-         //                   InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
-                            try {
+                case InquiryManagerActions.ADD_INQUIRY: {
+                    ArrayList<Inquiry> listInq = (ArrayList<Inquiry>) requestData.parameters;
+                    for (Object parameter : listInq) {
+                        Inquiry inq = (Inquiry) parameter;
+                        InquiryManager.q.add(inq);
+                        InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
+                        inq.setCode(InquiryManager.getNextCodeVal());
+                        //                   InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
+                        try {
 //                                registerInquiry();
-                                handleFiles.saveCSV((Inquiry) parameter, inq.getFolderName() + "\\" + inq.getFileName());
+                            handleFiles.saveCSV((Inquiry) parameter, inq.getFolderName() + "\\" + inq.getFileName());
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        objectOutputStream.writeObject(new ResponseData("The inquiry received succesfully", ResponseStatus.SCCESS));
-                        objectOutputStream.flush();
+
+
                     }
+                    objectOutputStream.writeObject(new ResponseData("The inquiry received succesfully", ResponseStatus.SCCESS));
+                    objectOutputStream.flush();
                 }
-                else{
-                    if(requestData.action == InquiryManagerActions.GET_COUNTINQUIRY){
-                        int digit=GetCountInquiriesOfMonth((int)requestData.parameters);
-                        objectOutputStream.writeObject(new ResponseData("The inquiries received succesfully", ResponseStatus.SCCESS, digit));
-                    }
+                case InquiryManagerActions.GET_COUNTINQUIRY: {
+                    int digit = GetCountInquiriesOfMonth((int) requestData.parameters);
+                    objectOutputStream.writeObject(new ResponseData("The inquiries received succesfully", ResponseStatus.SCCESS, digit));
+                    objectOutputStream.flush();
                 }
             }
-            objectOutputStream.flush();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+
     public int GetCountInquiriesOfMonth(int numOfMonth){
         int count=0;
 //        List list = new ArrayList<Inquiry>();

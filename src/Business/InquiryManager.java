@@ -12,11 +12,13 @@ import Exception.InquiryRunTimeException;
 public class InquiryManager {
     public final  static  Queue<Inquiry> q;
     private  static Integer nextCodeVal = 0;
-    private final static Queue<Representative> representativeList;
+    public   static Queue<Representative> representativeList;
     private  static Integer nextCodeWorker = 100;
 
     private InquiryManager() {}
-
+    public  static Queue<Representative>getRepresentativeList(){
+        return representativeList;
+    }
     public static Integer getNextCodeWorker() {
         return nextCodeWorker;
     }
