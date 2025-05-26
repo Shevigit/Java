@@ -12,14 +12,10 @@ import Exception.InquiryRunTimeException;
 public class InquiryManager {
     public final  static  Queue<Inquiry> q;
     private  static Integer nextCodeVal = 0;
-    public    static Queue<Representative> representativeList;
+    private final static Queue<Representative> representativeList;
     private  static Integer nextCodeWorker = 100;
 
     private InquiryManager() {}
-
-    public static Queue<Representative> getRepresentativeList() {
-        return representativeList;
-    }
 
     public static Integer getNextCodeWorker() {
         return nextCodeWorker;
@@ -75,47 +71,6 @@ public class InquiryManager {
     }
 
 
-//    public  void defineRepresentative(){
-//        System.out.println("To Add representative enter 1! To exit enter 0!");
-//        Scanner scan = new Scanner(System.in);
-//        int key=scan.nextInt();
-//        if(key==1) {
-//            System.out.println("Enter representative name");
-//            Scanner scan2 = new Scanner(System.in);
-//            String name = scan2.nextLine();
-//            System.out.println("Enter representative identity");
-//            String identity=scan2.nextLine();
-//            while (key == 1) {
-//                try{
-//                    define(name,identity);
-//                }
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//                System.out.println("To Add representative enter 1! To exit enter 0!");
-//                key = scan.nextInt();
-//                if (key == 1) {
-//                    System.out.println("Enter representative name");
-//                    name = scan2.nextLine();
-//                    System.out.println("Enter representative identity");
-//                    identity=scan2.nextLine();
-//                }
-//
-//            }
-//        }
-//    }
-//
-//    public void define(String representativeName,String identity){
-//        try{
-//            setNextCodeWorker(nextCodeWorker+1);
-//            Representative representative=new Representative(representativeName,identity);
-//            handleFiles.saveCSV(representative,representative.getFolderName()+"\\"+representative.getFileName());
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
     public void loadInquiriesFromDirectory(String directoryPath) {
         File directory = new File(directoryPath);
         if (!directory.exists() || !directory.isDirectory()) {
@@ -161,7 +116,6 @@ public class InquiryManager {
                     if (representative != null) {
                         representativeList.add(representative);
                     }
-
                 } catch (InquiryRunTimeException e) {
                     e.printStackTrace();
                 }
@@ -235,6 +189,39 @@ public class InquiryManager {
                 currentInquiry= q.poll();
                 currentInquiry.handling();
             }
-        }
+        }  
+        
     }
+
+
+// Saves inquiry to CSV with assigned representative and initial "open" status.
+//public Inquiry registerInquiry(List<Object> params) throws IOException {
+  //  if (params != null && !params.isEmpty() && params.get(0) instanceof Inquiry) {
+    //    Inquiry inquiry = (Inquiry) params.get(0);
+    //    setNextCodeVal(nextCodeVal + 1);
+    //    inquiry.setCode(getNextCodeVal());
+    //    allInquiry.add(inquiry);
+    //    System.out.println(InquiryManager.allInquiry);
+     //   String pathFile = handleFiles.getDirectoryPath(inquiry);
+     //   String representativeCode = inquiryToRepresetative(inquiry);
+      //  inquiry.setRepresentativeCode(representativeCode);
+      //  inquiry.setStatusInquiry(StatusInquiry.OPEN);
+    //    handleFiles.saveCSV(inquiry, pathFile);
+    //    return inquiry;
+   // }
+  //  return null;
+//}
+
+// connect inquiry to an available representative.
+//public String inquiryToRepresetative(Inquiry inquiry) {
+ //   Representative representative = avilableRepresentative.poll();
+ //   if (representative != null) {
+ //       requestToAgentMap.put(representative, inquiry);
+  //      return representative.getCode();
+  //  } else {
+  //      System.out.println("No representatives are currently available.");
+   //     return null;
+   // }
+//}
+
 }
