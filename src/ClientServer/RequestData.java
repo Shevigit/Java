@@ -9,6 +9,15 @@ public class RequestData implements Serializable
     private static final long serialVersionUID = 1L;
     InquiryManagerActions action;
     Object parameters;
+    int digit;
+
+    public int getDigit() {
+        return digit;
+    }
+
+    public void setDigit(int digit) {
+        this.digit = digit;
+    }
 
     public RequestData(InquiryManagerActions action) {
         this.action = action;
@@ -27,4 +36,15 @@ public class RequestData implements Serializable
         this.action = action;
         this.parameters = parameters;
     }
+    public RequestData(InquiryManagerActions action, List parameters) {
+        this.action = action;
+        this.parameters = parameters;
+    }
+    public RequestData(InquiryManagerActions action, int digit) {
+        this.action = action;
+        this.digit = digit;
+    }
 }
+
+
+

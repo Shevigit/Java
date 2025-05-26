@@ -10,7 +10,7 @@ import Exception.InquiryException;
 import Exception.InquiryRunTimeException;
 
 public class InquiryManager {
-    public final  static  Queue<Inquiry> q;
+    public   static  Queue<Inquiry> q;
     private  static Integer nextCodeVal = 0;
     public   static Queue<Representative> representativeList;
     private  static Integer nextCodeWorker = 100;
@@ -80,11 +80,10 @@ public class InquiryManager {
         }
         File [] files= directory.listFiles();
         if (files != null) {
-
             for (File file : files) {
                 try {
                     setNextCodeVal(nextCodeVal+1);
-                    Inquiry inquiry = (Inquiry) HandleFiles.readFromFile(file.getAbsolutePath());
+                    Inquiry inquiry = (Inquiry) HandleFiles.readFromFile(file.getPath());
                     //   System.out.println(nextCodeVal);
                     if (inquiry != null) {
                         q.add(inquiry);

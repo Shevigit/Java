@@ -15,6 +15,15 @@ public abstract class Inquiry implements IForSaving ,Serializable{
     protected String description;
     protected LocalDateTime creationDate;
     protected Integer code;
+
+    public StatusInquiry getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusInquiry status) {
+        this.status = status;
+    }
+
     StatusInquiry status;
     Representative representative;
 
