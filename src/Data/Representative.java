@@ -58,7 +58,7 @@ public class Representative  implements IForSaving{
 
     @Override
     public String getFileName() {
-        return codeWorker+".csv";
+        return codeWorker+"";
     }
 
     @Override

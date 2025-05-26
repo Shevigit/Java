@@ -20,7 +20,7 @@ public class InquiryManagerServer extends Thread{
     }
 
     @Override
-    public synchronized void start() {
+    public synchronized void run() {
         try{
             HandleClient handleClient;
             while (true){

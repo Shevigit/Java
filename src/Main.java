@@ -36,13 +36,13 @@ public class Main {
 //        inquiryManager.defineRepresentative();
 //        inquiryManager.inquiryCreation();
 //        inquiryManager.processInquiryManager();
-        RepresentativeManagement r=new RepresentativeManagement();
-        r.start();
+//        RepresentativeManagement r=new RepresentativeManagement();
+//        r.start();
 
-        //ServerSocket serverSocket=new ServerSocket(9000);
-        //InquiryManagerServer inquiryManagerServer=new InquiryManagerServer(serverSocket);
-        //inquiryManagerServer.start();
-        //System.out.println("server start to run");
+        ServerSocket serverSocket=new ServerSocket(9000);
+        InquiryManagerServer inquiryManagerServer=new InquiryManagerServer(serverSocket);
+        inquiryManagerServer.start();
+        System.out.println("server start to run");
 
     }
 }

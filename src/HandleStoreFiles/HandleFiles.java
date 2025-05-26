@@ -23,17 +23,10 @@ public class HandleFiles {
         outputStreamWriter.flush();
     }
 
-
-    public void deleteFile(IForSaving forSaving) throws IOException {
-        File f = new File(forSaving.getFolderName() + "\\" + forSaving.getFileName());
-        System.out.println("file: " + f.getPath());
-        System.out.println(f);
-        boolean deleted = f.delete();
-        if (deleted) {
-            System.out.println("File deleted successfully.");
-        } else {
-            System.out.println("Failed to delete the file.");
-        }
+    public boolean deleteFile(IForSaving forSaving) throws IOException {
+        File f = new File(forSaving.getFolderName(), forSaving.getFileName() + ".csv");
+        boolean success = f.delete();
+       return success;
     }
 
 
@@ -56,30 +49,33 @@ public class HandleFiles {
     }
 
     public static IForSaving readFromFile(String filePath) throws Exception {
-        int commaCount=   filePath.length() - (filePath.replace(",", "").length());
-        String[] data = new String[commaCount+1];
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        String line = br.readLine();
-        if (line != null) {
-            data = line.split(",");
-            IForSaving iforsaving;
-            String fullClassName = data[0];
-            try {
-                Class clazz = Class.forName("Data." + fullClassName);
-                if (IForSaving.class.isAssignableFrom(clazz)){
+        int commaCount = filePath.length() - filePath.replace(",", "").length();
+        String[] data = new String[commaCount + 1];
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine();
+            if (line != null) {
+                data = line.split(",");
+                String fullClassName = data[0];
+
+                Class<?> clazz = Class.forName("Data." + fullClassName);
+                if (IForSaving.class.isAssignableFrom(clazz)) {
                     Constructor<?> constructor = clazz.getDeclaredConstructor();
-                    iforsaving=(IForSaving) constructor.newInstance();
-                    ((IForSaving)iforsaving).parse(data);
-                    return  iforsaving;
+                    IForSaving iforsaving = (IForSaving) constructor.newInstance();
+                    iforsaving.parse(data);
+                    return iforsaving;
                 } else {
-                    throw new IllegalArgumentException("Class does not extend IForSaving");
+                    throw new IllegalArgumentException("Class does not implement IForSaving");
                 }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
+        } catch (IOException | ReflectiveOperationException e) {
+            e.printStackTrace();
+            throw e;
         }
+
         return null;
     }
+
 
 
     public String getCSVDataRecursive(Object obj) throws Exception {

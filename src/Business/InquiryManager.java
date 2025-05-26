@@ -161,6 +161,7 @@ public class InquiryManager {
                     if (representative != null) {
                         representativeList.add(representative);
                     }
+
                 } catch (InquiryRunTimeException e) {
                     e.printStackTrace();
                 }

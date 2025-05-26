@@ -24,7 +24,7 @@ public class HandleClient extends Thread  {
     }
 
     @Override
-    public synchronized void start() {
+    public synchronized void run() {
         try {
             while(true){
                 handleClientRequest();
@@ -37,7 +37,6 @@ public class HandleClient extends Thread  {
 
     public void handleClientRequest() {
         try {
-
             ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
             RequestData requestData = (RequestData) objectInputStream.readObject();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());

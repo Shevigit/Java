@@ -63,15 +63,14 @@ public class RepresentativeManagement extends Thread{
 
 
     public void deleteRepresentative(Integer codeWorker) {
-        System.out.println("enter delet");
         Queue<Representative> queue = InquiryManager.getRepresentativeList();
         Queue<Representative>temp=new LinkedList<Representative>();
         while (!queue.isEmpty()) {
             Representative r=queue.remove();
             if (r.getCodeWorker()==codeWorker) {
                 try {
-                    handleFiles.deleteFile(r);
-                    System.out.printf("representative: "+r.getCodeWorker()+" delete");
+                    boolean isDelete=handleFiles.deleteFile(r);
+                    System.out.println("the Representetive deleted: "+isDelete);
                 }
                 catch (IOException ex){
                     ex.printStackTrace();
