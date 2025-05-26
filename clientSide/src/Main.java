@@ -7,9 +7,5 @@ public class Main {
 
     InquiryManagerClient inquiryManagerClient=new InquiryManagerClient("localhost",9000);
     inquiryManagerClient.execut();
-
-
-
-
     }
 }

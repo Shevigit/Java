@@ -1,21 +1,26 @@
 package ClientServer;
 
-import Data.Inquiry;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestData implements Serializable {
+public class RequestData implements Serializable
+{
     private static final long serialVersionUID = 1L;
     InquiryManagerActions action;
     Object parameters;
+    int digit;
+
+    public int getDigit() {
+        return digit;
+    }
+
+    public void setDigit(int digit) {
+        this.digit = digit;
+    }
 
     public RequestData(InquiryManagerActions action) {
         this.action = action;
-    }
-
-    public RequestData() {
     }
 
     public InquiryManagerActions getAction() {
@@ -29,7 +34,17 @@ public class RequestData implements Serializable {
 
     public RequestData(InquiryManagerActions action, Object parameters) {
         this.action = action;
-        System.out.println(parameters);
         this.parameters = parameters;
     }
+    public RequestData(InquiryManagerActions action, List parameters) {
+        this.action = action;
+        this.parameters = parameters;
+    }
+    public RequestData(InquiryManagerActions action, int digit) {
+        this.action = action;
+        this.digit = digit;
+    }
 }
+
+
+

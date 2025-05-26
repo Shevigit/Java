@@ -1,21 +1,28 @@
 package Data;
 
-import Business.InquiryManagerClient;
 import ClientServer.StatusInquiry;
 import HandleStoreFiles.IForSaving;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public abstract class Inquiry implements IForSaving, Serializable {
+public abstract class Inquiry implements IForSaving ,Serializable{
     public String getClassName() {
         return className;
     }
     protected String description;
     protected LocalDateTime creationDate;
     protected Integer code;
+
+    public StatusInquiry getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusInquiry status) {
+        this.status = status;
+    }
+
     StatusInquiry status;
     Representative representative;
 
@@ -64,7 +71,7 @@ public abstract class Inquiry implements IForSaving, Serializable {
 
     public void fillDataByUser() {
         className = this.getClass().getSimpleName();
-        // setCode(InquiryManagerClient.getNextCodeVal());
+        // setCode(InquiryManager.getNextCodeVal());
         setCreationDate(LocalDateTime.now());
         System.out.println("enter describtion:");
         Scanner scan = new Scanner(System.in);

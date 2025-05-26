@@ -39,7 +39,9 @@ public class InquiryManagerClient  {
     public  void execut(){
         Scanner scanner=new Scanner(System.in);
         InquiryManagerActions inquiryManagerActions;
-        System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 4 to get count of the Inquiries in the specific month\nEnter 5 to exit");
+        System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 3 to delet Inquiry" +
+                "\nEnter 4 to get count of the Inquiries in the specific month\nEnter 5 to exit");
+
         int num=scanner.nextInt();
         int digit=0;
         RequestData requestData;
@@ -56,7 +58,6 @@ public class InquiryManagerClient  {
                     digit=scanner.nextInt();
                     while(digit>0&&digit<4)
                     {
-
                         createInquiry(digit);
                         //  InquiryManager.setNextCodeVal(InquiryManager.getNextCodeVal() + 1);
                         currentInquiry.fillDataByUser();
@@ -68,6 +69,14 @@ public class InquiryManagerClient  {
                     requestData=new RequestData(inquiryManagerActions,inquiryList);
                     sendRequestToServer(requestData);
                     break;
+                case 3:{
+                    inquiryManagerActions=InquiryManagerActions.DELETE_INQUIRY;
+                    System.out.println("enter code inquiry");
+                    digit=scanner.nextInt();
+                    requestData=new RequestData(inquiryManagerActions,digit);
+                    sendRequestToServer(requestData);
+                    break;
+                }
                 case 4:{
                     inquiryManagerActions=InquiryManagerActions.GET_COUNTINQUIRY;
                     System.out.println("Enter number of month");
@@ -76,14 +85,16 @@ public class InquiryManagerClient  {
                     sendRequestToServer(requestData);
                     break;
                 }
+
                 default:
                     break;
 
             }
-            System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 4 to get count of the Inquiries in the specific month\nEnter 5 to exit");
+            System.out.println("Enter 1 to get all Inquiries\nEnter 2 to add Inquiry\nEnter 3 to delet Inquiry" +
+                    "\nEnter 4 to get count of the Inquiries in the specific month\nEnter 5 to exit");
+
             num=scanner.nextInt();
         }
-
     }
 
 
@@ -112,7 +123,6 @@ public class InquiryManagerClient  {
             objectOutputStream.writeObject(requestData);
             objectOutputStream.flush();
             objectInputStream=new ObjectInputStream(connectToServer.getInputStream());
-
             ResponseData responseData=(ResponseData) objectInputStream.readObject();
             System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage()
                     + " resualt: " + responseData.getResult());

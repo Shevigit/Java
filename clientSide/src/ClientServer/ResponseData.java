@@ -1,11 +1,8 @@
 package ClientServer;
 
-import HandleStoreFiles.IForSaving;
-
 import java.io.Serializable;
-import java.util.List;
 
-public class ResponseData implements Serializable {
+public class ResponseData implements  Serializable  {
     private static final long serialVersionUID = 1L;
     ResponseStatus status;
     String message;
@@ -18,16 +15,12 @@ public class ResponseData implements Serializable {
         this.status = status;
     }
 
-    public ResponseData(ResponseStatus status, String message, Object result) {
+    public ResponseData( String message,ResponseStatus status, Object result) {
         this.status = status;
         this.message = message;
         this.result = result;
     }
     public ResponseData() {
-    }
-    public ResponseData(ResponseStatus status, String message) {
-        this.status = status;
-        this.message = message;
     }
 
     public String getMessage() {
@@ -35,6 +28,11 @@ public class ResponseData implements Serializable {
     }
 
 
+    public ResponseData(ResponseStatus status,String message) {
+
+        this.message = message;
+        this.status=status;
+    }
 
     public void setMessage(String message) {
         this.message = message;
@@ -47,6 +45,14 @@ public class ResponseData implements Serializable {
     public void setResult(Object result) {
         this.result = result;
     }
+
+
+}
+
+
+
+
+
 
 //    @Override
 //    public String toString() {
@@ -75,4 +81,4 @@ public class ResponseData implements Serializable {
 //                '}';
 //    }
 
-}
+
