@@ -1,4 +1,5 @@
 
+import Business.InquiryManager;
 import Business.RepresentativeManagement;
 import ClientServer.InquiryManagerServer;
 import java.net.ServerSocket;
@@ -18,10 +19,13 @@ public class Main {
                     break;
                 }
                 case 2: {
+
                     ServerSocket serverSocket = new ServerSocket(9000);
                     InquiryManagerServer inquiryManagerServer = new InquiryManagerServer(serverSocket);
-                    inquiryManagerServer.start();
-                    System.out.println("server start to run");
+                    Thread t1=new Thread(inquiryManagerServer);
+                    t1.start();
+                    InquiryManager inquiryManager=InquiryManager.getInstance();
+                    Thread t2=new Thread(inquiryManager);
                     inquiryManagerServer.join();
                     break;
                 }
