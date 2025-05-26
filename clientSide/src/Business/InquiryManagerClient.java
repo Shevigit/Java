@@ -85,7 +85,12 @@ public class InquiryManagerClient  {
                     sendRequestToServer(requestData);
                     break;
                 }
-
+                case 5:{
+                    inquiryManagerActions=InquiryManagerActions.STOP_RUN;
+                    requestData=new RequestData(inquiryManagerActions);
+                    sendRequestToServer(requestData);
+                    break;
+                }
                 default:
                     break;
 
@@ -128,7 +133,7 @@ public class InquiryManagerClient  {
                     + " resualt: " + responseData.getResult());
         }
         catch (IOException e){
-            ResponseData responseData=new ResponseData(ResponseStatus.FAIL,"The response faailed!");
+            ResponseData responseData=new ResponseData("The response faailed!",ResponseStatus.FAIL);
             System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage());
 
         }
