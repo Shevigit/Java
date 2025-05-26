@@ -110,18 +110,12 @@ public class InquiryManagerClient  {
         try{
             objectOutputStream=new ObjectOutputStream(connectToServer.getOutputStream());
             objectOutputStream.writeObject(requestData);
-            //     objectOutputStream.close();
             objectOutputStream.flush();
             objectInputStream=new ObjectInputStream(connectToServer.getInputStream());
 
             ResponseData responseData=(ResponseData) objectInputStream.readObject();
-            //        Inquiry i=(Inquiry) responseData.getResult();
             System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage()
                     + " resualt: " + responseData.getResult());
-//                        System.out.println("responeData: status: " + responseData.getStatus() +" message: " + responseData.getMessage()
-//            + " resualt: " + ((IForSaving) responseData.getResult()).getData());
-            // System.out.println(responseData.toString());
-            //   Thread.currentThread().sleep(1000*10);
         }
         catch (IOException e){
             ResponseData responseData=new ResponseData(ResponseStatus.FAIL,"The response faailed!");
@@ -131,9 +125,6 @@ public class InquiryManagerClient  {
         catch (ClassNotFoundException e){
             e.printStackTrace();
         }
-//        catch (InterruptedException e){
-//            e.printStackTrace();
-//        }
     }
 
 }

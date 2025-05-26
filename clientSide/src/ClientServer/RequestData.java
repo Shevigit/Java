@@ -29,6 +29,7 @@ public class RequestData implements Serializable {
 
     public RequestData(InquiryManagerActions action, Object parameters) {
         this.action = action;
+        System.out.println(parameters);
         this.parameters = parameters;
     }
 }
