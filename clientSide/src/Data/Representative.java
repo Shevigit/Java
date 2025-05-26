@@ -10,6 +10,15 @@ public class Representative  implements IForSaving{
     private  String firstName;
     private String identity;
     private  int codeWorker;
+    private boolean statusRepresentative;
+
+    public boolean isStatusRepresentative() {
+        return statusRepresentative;
+    }
+
+    public void setStatusRepresentative(boolean statusRepresentative) {
+        this.statusRepresentative = statusRepresentative;
+    }
 
     public String getClassName() {
         return className;
