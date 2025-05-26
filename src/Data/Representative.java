@@ -11,7 +11,7 @@ public class Representative  implements IForSaving{
     private  String firstName;
     private String identity;
     private  int codeWorker;
-
+    private boolean associatedInquiry;
     public String getClassName() {
         return className;
     }
@@ -38,16 +38,25 @@ public class Representative  implements IForSaving{
         return identity;
     }
 
+    public boolean isAssociatedInquiry() {
+        return associatedInquiry;
+    }
+
+    public void setAssociatedInquiry(boolean associatedInquiry) {
+        this.associatedInquiry = associatedInquiry;
+    }
+
     public void setIdentity(String identity) {
         this.identity = identity;
     }
 
     public Representative() {
     }
-    public Representative(String firstName,String identity) {
+    public Representative(String firstName,String identity,boolean associatedInquiry) {
         this.firstName = firstName;
         this.identity=identity;
         codeWorker= InquiryManager.getNextCodeWorker();
+        this.associatedInquiry=associatedInquiry;
     }
 
 

@@ -4,7 +4,6 @@ import Business.InquiryManager;
 import HandleStoreFiles.HandleFiles;
 import Data.Inquiry;
 //import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,6 +13,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import static ClientServer.InquiryManagerActions.*;
 
 public class HandleClient extends Thread{
 private Socket clientSocket ;
@@ -44,7 +45,7 @@ public void handleClientRequest() {
         RequestData requestData = (RequestData) objectInputStream.readObject();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
         switch (requestData.action) {
-            case InquiryManagerActions.ALL_INQUIRY: {
+            case ALL_INQUIRY: {
                 List list = new ArrayList<Inquiry>();
                 Queue<Inquiry> tempQueue = new LinkedList<>(InquiryManager.q);
                 while (!tempQueue.isEmpty()) {
@@ -55,7 +56,7 @@ public void handleClientRequest() {
                 objectOutputStream.writeObject(new ResponseData("The inquiries received succesfully", ResponseStatus.SCCESS, list));
                 break;
             }
-            case InquiryManagerActions.ADD_INQUIRY: {
+            case ADD_INQUIRY: {
                 ArrayList<Inquiry> listInq = (ArrayList<Inquiry>) requestData.parameters;
                 for (Object parameter : listInq) {
                     Inquiry inq = (Inquiry) parameter;
@@ -75,12 +76,12 @@ public void handleClientRequest() {
                 objectOutputStream.writeObject(new ResponseData("The inquiry received succesfully", ResponseStatus.SCCESS));
                 objectOutputStream.flush();
             }
-            case InquiryManagerActions.GET_COUNTINQUIRY: {
+            case GET_COUNTINQUIRY: {
                 int digit = GetCountInquiriesOfMonth((int) requestData.getDigit());
                 objectOutputStream.writeObject(new ResponseData("The inquiries received succesfully", ResponseStatus.SCCESS, digit));
                 objectOutputStream.flush();
             }
-            case InquiryManagerActions.DELETE_INQUIRY: {
+            case DELETE_INQUIRY: {
                 int digit=(int)requestData.getDigit();
                 boolean flag = false;
                 Queue<Inquiry> temp = new LinkedList<Inquiry>();
@@ -117,6 +118,10 @@ public void handleClientRequest() {
 //                }
 //            }
 
+//            case GET_STATUS:
+//                break;
+//            case GET_REPRESENTATIVE:
+//                break;
             case GET_STATUS:
                 break;
             case GET_REPRESENTATIVE:

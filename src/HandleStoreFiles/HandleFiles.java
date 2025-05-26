@@ -51,7 +51,7 @@ public class HandleFiles {
     public static IForSaving readFromFile(String filePath) throws Exception {
         int commaCount = filePath.length() - filePath.replace(",", "").length();
         String[] data = new String[commaCount + 1];
-        System.out.println("ffffff"+filePath);
+        System.out.println("ffffff  "+filePath);
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line = br.readLine();
             if (line != null) {

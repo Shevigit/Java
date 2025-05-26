@@ -27,12 +27,21 @@ public abstract class Inquiry implements IForSaving ,Serializable{
     StatusInquiry status;
     Representative representative;
 
+    public Representative getRepresentative() {
+        return representative;
+    }
+
+    public void setRepresentative(Representative representative) {
+        this.representative = representative;
+    }
+
     @Override
     public void parse(String[] fileText) throws IOException {
         this.className = fileText[0];
         this.code = Integer.parseInt(fileText[1]);
         this.creationDate = LocalDateTime.parse(fileText[2]);
         this.description = fileText[3];
+
     }
 
     public void setClassName(String className) {

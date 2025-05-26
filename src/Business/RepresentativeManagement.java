@@ -41,8 +41,10 @@ public class RepresentativeManagement extends Thread{
             String name = scan2.nextLine();
             System.out.println("Enter representative identity");
             String identity=scan2.nextLine();
+             System.out.println("Enter if you Associated with inquiries");
+              boolean isAssociated=scan2.nextBoolean();
                 try{
-                    define(name,identity);
+                    define(name,identity,isAssociated);
                     System.out.println("Representatibe add!");
                 }
                 catch (Exception e){
@@ -50,10 +52,10 @@ public class RepresentativeManagement extends Thread{
                 }
     }
 
-    public void define(String representativeName,String identity){
+    public void define(String representativeName,String identity,boolean isAssociated){
         try{
            InquiryManager.setNextCodeWorker(InquiryManager.getNextCodeWorker()+1);
-            Representative representative=new Representative(representativeName,identity);
+            Representative representative=new Representative(representativeName,identity,isAssociated);
             handleFiles.saveCSV(representative,representative.getFolderName()+"\\"+representative.getFileName());
         }
         catch (Exception e){

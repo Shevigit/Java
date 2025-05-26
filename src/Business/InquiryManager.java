@@ -1,19 +1,26 @@
 package Business;
 
+import ClientServer.ResponseData;
+import ClientServer.ResponseStatus;
+import ClientServer.StatusInquiry;
 import Data.*;
 import HandleStoreFiles.HandleFiles;
 import java.io.File;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 import Exception.InquiryException;
 import Exception.InquiryRunTimeException;
 
-public class InquiryManager {
+public class InquiryManager extends Thread{
     public   static  Queue<Inquiry> q;
     private  static Integer nextCodeVal = 0;
     public   static Queue<Representative> representativeList;
     private  static Integer nextCodeWorker = 100;
+    private static Queue<Inquiry> inquiryWithRepresatntative=new LinkedList<Inquiry>();
+    private static Queue<Representative>availableRepresntative=new LinkedList<Representative>();//תור לנציגים שפנויים להיום!
 
     private InquiryManager() {}
     public  static Queue<Representative>getRepresentativeList(){
@@ -63,6 +70,7 @@ public class InquiryManager {
                 inquiryManager.loadRepresentativeFromDirectory("Representative");
             }
             System.out.printf("succeeded: " + q.isEmpty() + "\n");
+            loadAvailabeleRepresantative();
         }
         catch (InquiryRunTimeException e) {
             throw new InquiryRunTimeException(nextCodeVal);
@@ -72,6 +80,23 @@ public class InquiryManager {
         }
     }
 
+    @Override
+    public void run() {
+        while (true){
+            Thread t1=new Thread(this::processInquiryWithReprasentative);//זיוג פניות לנציגים פנויים
+            System.out.println();
+            Thread t2=new Thread(this::processIntreatment);//טיפול בפניות שזווגו לנציג
+        }
+    }
+
+    public static void loadAvailabeleRepresantative(){
+        Queue<Representative>temp=representativeList;
+        for (Representative representative:temp){
+            if(representative.isAssociatedInquiry()==true)
+                availableRepresntative.add(representative);
+        }
+
+    }
 
     public void loadInquiriesFromDirectory(String directoryPath) {
         File directory = new File(directoryPath);
@@ -113,7 +138,7 @@ public class InquiryManager {
                 try {
                     setNextCodeWorker(nextCodeWorker+1);
                     Representative representative = (Representative) HandleFiles.readFromFile(file.getAbsolutePath());
-                    //  System.out.println("Representative" + nextCodeWorker);
+                      System.out.println("Representative" + file.getAbsolutePath());
                     if (representative != null) {
                         representativeList.add(representative);
                     }
@@ -126,6 +151,26 @@ public class InquiryManager {
             }
         }
     }
+    public  void  processInquiryWithReprasentative() {
+        while (!availableRepresntative.isEmpty()) {
+            while (!q.isEmpty()) {
+                Inquiry i = q.remove();
+                Representative r = availableRepresntative.remove();
+                i.setRepresentative(r);
+                i.setStatus(StatusInquiry.OPEN);
+                inquiryWithRepresatntative.add(i);
+            }
+        }
+
+    }
+    public void processIntreatment(){
+        while (!inquiryWithRepresatntative.isEmpty()){
+            Inquiry i=inquiryWithRepresatntative.remove();
+            i.setStatus(StatusInquiry.INTREATMENT);
+            /// פונקצית העברה הסטוריה
+        }
+    }
+
 
 //
 //    public  void createInquiry(int digit)
@@ -184,15 +229,6 @@ public class InquiryManager {
 //
 //
 //    }
-    public  void  processInquiryManager() {
-        if (q != null) {
-            while (!q.isEmpty()) {
-                currentInquiry= q.poll();
-                currentInquiry.handling();
-            }
-        }  
-        
-    }
 
 
 // Saves inquiry to CSV with assigned representative and initial "open" status.
