@@ -20,7 +20,7 @@ public class InquiryManager extends Thread{
     public   static Queue<Representative> representativeList;
     private  static Integer nextCodeWorker = 100;
     private static Queue<Inquiry> inquiryWithRepresatntative=new LinkedList<Inquiry>();
-    private static Queue<Representative>availableRepresntative=new LinkedList<Representative>();//תור לנציגים שפנויים להיום!
+    public  static   Queue<Representative>availableRepresntative=new LinkedList<Representative>();//תור לנציגים שפנויים להיום!
 
     private InquiryManager() {}
     public  static Queue<Representative>getRepresentativeList(){
@@ -69,7 +69,6 @@ public class InquiryManager extends Thread{
             if (directory.exists() || directory.isDirectory()) {
                 inquiryManager.loadRepresentativeFromDirectory("Representative");
             }
-            System.out.printf("succeeded: " + q.isEmpty() + "\n");
             loadAvailabeleRepresantative();
         }
         catch (InquiryRunTimeException e) {
@@ -82,12 +81,21 @@ public class InquiryManager extends Thread{
 
     @Override
     public void run() {
-        while (true){
-            Thread t1=new Thread(this::processInquiryWithReprasentative);//זיוג פניות לנציגים פנויים
-            System.out.println();
-            Thread t2=new Thread(this::processIntreatment);//טיפול בפניות שזווגו לנציג
+
+        Thread t1 = new Thread(this::processInquiryWithReprasentative);
+        Thread t2 = new Thread(this::processIntreatment);
+
+        t1.start();
+        t2.start();
+
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
+
 
     public static void loadAvailabeleRepresantative(){
         Queue<Representative>temp=representativeList;
@@ -138,7 +146,6 @@ public class InquiryManager extends Thread{
                 try {
                     setNextCodeWorker(nextCodeWorker+1);
                     Representative representative = (Representative) HandleFiles.readFromFile(file.getAbsolutePath());
-                      System.out.println("Representative" + file.getAbsolutePath());
                     if (representative != null) {
                         representativeList.add(representative);
                     }
@@ -151,23 +158,46 @@ public class InquiryManager extends Thread{
             }
         }
     }
-    public  void  processInquiryWithReprasentative() {
-        while (!availableRepresntative.isEmpty()) {
-            while (!q.isEmpty()) {
-                Inquiry i = q.remove();
-                Representative r = availableRepresntative.remove();
-                i.setRepresentative(r);
-                i.setStatus(StatusInquiry.OPEN);
-                inquiryWithRepresatntative.add(i);
+
+    public void processInquiryWithReprasentative() {
+
+        while (true) {
+            synchronized (this) {
+                while (!q.isEmpty() && !availableRepresntative.isEmpty()) {
+                    Inquiry i = q.remove();
+                    Representative r = availableRepresntative.remove();
+                    System.out.println("inquiry: " + i.getCode() + " with representative: " + r.getCodeWorker());
+                    i.setRepresentative(r);
+                    i.setStatus(StatusInquiry.OPEN);
+                    inquiryWithRepresatntative.add(i);
+                }
+            }
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
             }
         }
-
     }
-    public void processIntreatment(){
-        while (!inquiryWithRepresatntative.isEmpty()){
-            Inquiry i=inquiryWithRepresatntative.remove();
-            i.setStatus(StatusInquiry.INTREATMENT);
-            /// פונקצית העברה הסטוריה
+
+    public void processIntreatment() {
+        while (true) {
+            synchronized (this) {
+                while (!inquiryWithRepresatntative.isEmpty()) {
+                    Inquiry i = inquiryWithRepresatntative.remove();
+                    i.setStatus(StatusInquiry.INTREATMENT);
+                    // לא גמור צריך להעביר את הפניה להסטוריה
+                }
+            }
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                break;
+            }
         }
     }
 

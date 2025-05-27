@@ -45,7 +45,6 @@ public class RepresentativeManagement extends Thread{
               boolean isAssociated=scan2.nextBoolean();
                 try{
                     define(name,identity,isAssociated);
-                    System.out.println("Representatibe add!");
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -56,7 +55,12 @@ public class RepresentativeManagement extends Thread{
         try{
            InquiryManager.setNextCodeWorker(InquiryManager.getNextCodeWorker()+1);
             Representative representative=new Representative(representativeName,identity,isAssociated);
+            InquiryManager.representativeList.add(representative);//הוספה לתור הנציגים
+            if(isAssociated==true){
+                InquiryManager.availableRepresntative.add(representative);//במידה והוא מטפל בפניות הוספה לתור הנציגים הפנויים
+            }
             handleFiles.saveCSV(representative,representative.getFolderName()+"\\"+representative.getFileName());
+            System.out.println("The representative was successfully added!!");
         }
         catch (Exception e){
             e.printStackTrace();

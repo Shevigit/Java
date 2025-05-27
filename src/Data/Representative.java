@@ -78,9 +78,10 @@ public class Representative  implements IForSaving{
     @Override
     public void parse(String[] fileText) throws IOException {
         this.className=fileText[0];
-        this.codeWorker = Integer.parseInt(fileText[1]);
-        this.firstName = fileText[2];
-        this.identity = fileText[3];
+        this.associatedInquiry = Boolean.parseBoolean(fileText[1]);
+        this.codeWorker = Integer.parseInt(fileText[2]);
+        this.firstName = fileText[3];
+        this.identity = fileText[4];
 
     }
 }
