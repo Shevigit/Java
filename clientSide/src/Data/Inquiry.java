@@ -14,7 +14,8 @@ public abstract class Inquiry implements IForSaving ,Serializable{
     protected String description;
     protected LocalDateTime creationDate;
     protected Integer code;
-
+    StatusInquiry status;
+    Representative representative;
     public StatusInquiry getStatus() {
         return status;
     }
@@ -23,8 +24,15 @@ public abstract class Inquiry implements IForSaving ,Serializable{
         this.status = status;
     }
 
-    StatusInquiry status;
-    Representative representative;
+
+
+    public Representative getRepresentative() {
+        return representative;
+    }
+
+    public void setRepresentative(Representative representative) {
+        this.representative = representative;
+    }
 
     @Override
     public void parse(String[] fileText) throws IOException {
@@ -32,6 +40,7 @@ public abstract class Inquiry implements IForSaving ,Serializable{
         this.code = Integer.parseInt(fileText[1]);
         this.creationDate = LocalDateTime.parse(fileText[2]);
         this.description = fileText[3];
+
     }
 
     public void setClassName(String className) {
