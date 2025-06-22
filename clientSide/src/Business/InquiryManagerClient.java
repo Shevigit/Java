@@ -77,13 +77,16 @@ public class InquiryManagerClient {
                     break;
 
                 case 3:
+                    inquiryManagerActions=InquiryManagerActions.ALL_INQUIRY;
+                    requestData=new RequestData(inquiryManagerActions);
+                    sendRequestToServer(requestData);
+
                     inquiryManagerActions = InquiryManagerActions.DELETE_INQUIRY;
                     System.out.println("Enter code of inquiry to delete:");
                     digit = scanner.nextInt();
                     requestData = new RequestData(inquiryManagerActions, digit);
                     sendRequestToServer(requestData);
                     break;
-
                 case 4:
                     inquiryManagerActions = InquiryManagerActions.GET_COUNTINQUIRY;
                     System.out.println("Enter number of month:");
