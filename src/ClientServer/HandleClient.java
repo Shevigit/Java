@@ -109,8 +109,15 @@ public class HandleClient extends Thread {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+
                             flag = true;
                             inquiry.setStatus(StatusInquiry.CANCEL);
+                            try{
+                                handleFiles.saveCSV(inquiry, "History" + "\\" + inquiry.getFileName());
+                            }
+                            catch (Exception e){
+                                e.printStackTrace();
+                            }
                         } else {
                             temp.add(inquiry);
                         }
