@@ -8,7 +8,7 @@ The system demonstrates Object-Oriented Programming (OOP) principles, multithrea
 
 ---
 
-## 🚀 How to Run
+##  How to Run
 1. Open the project in IntelliJ IDEA (or any Java IDE).
 2. Run the server project first: `inquirymanagement_bsg`.
 3. Once the server is running, start the client project: `clientside_bsg`.
@@ -16,7 +16,7 @@ The system demonstrates Object-Oriented Programming (OOP) principles, multithrea
 
 ---
 
-## 🔧 Technologies & Methodologies
+##  Technologies & Methodologies
 - **Java (Pure Java)** – without external frameworks.
 - **OOP** – SOLID principles and modular class design.
 - **Multithreading** – handling multiple client requests in parallel.
@@ -25,7 +25,7 @@ The system demonstrates Object-Oriented Programming (OOP) principles, multithrea
 
 ---
 
-## ✨ Key Features
+##  Key Features
 - Server listens and handles requests from multiple clients simultaneously.
 - Queue-based system for efficient load management.
 - Modular code separating server and client logic.
@@ -33,7 +33,7 @@ The system demonstrates Object-Oriented Programming (OOP) principles, multithrea
 
 ---
 
-## 📌 Future Improvements
+##  Future Improvements
 - Extend the client-server communication protocol.
 - Add a graphical user interface (GUI) for the client (JavaFX/Swing).
 - Enhance logging and error handling.
