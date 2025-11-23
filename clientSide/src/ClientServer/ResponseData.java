@@ -1,0 +1,51 @@
+package ClientServer;
+
+import java.io.Serializable;
+
+public class ResponseData implements  Serializable  {
+    private static final long serialVersionUID = 1L;
+    ResponseStatus status;
+    String message;
+    Object result;
+    public ResponseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
+
+    public ResponseData( String message,ResponseStatus status, Object result) {
+        System.out.println("status: "+status);
+        this.status = status;
+        this.message = message;
+        this.result = result;
+    }
+    public ResponseData() {
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+
+    public ResponseData(String message,ResponseStatus status) {
+
+        this.message = message;
+        this.status=status;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Object getResult() {
+        return result;
+    }
+
+    public void setResult(Object result) {
+        this.result = result;
+    }
+
+
+}

@@ -47,6 +47,10 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+<<<<<<< HEAD
+=======
+
+>>>>>>> b6a01fa0e4b39a55fabc1087d456978ef6011d25
 # IntelliJ IDEA
 .idea/
 *.iml
@@ -57,6 +61,9 @@ Thumbs.db
 .classpath
 .settings/
 .metadata/
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> b6a01fa0e4b39a55fabc1087d456978ef6011d25
