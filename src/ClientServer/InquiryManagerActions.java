@@ -1,7 +1,0 @@
-package ClientServer;
-
-
-public enum InquiryManagerActions {
-    ALL_INQUIRY, ADD_INQUIRY, GET_COUNTINQUIRY,DELETE_INQUIRY,GET_STATUS,GET_REPRESENTATIVE;
-
-}
